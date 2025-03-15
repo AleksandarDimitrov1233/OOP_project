@@ -1,3 +1,3 @@
-public class Formula1 {
+public class Formula1 extends Cell {
     private  String formula;
 }
