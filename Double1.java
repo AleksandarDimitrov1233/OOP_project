@@ -1,3 +1,3 @@
-public class Double1 {
+public class Double1 extends Cell {
    private double value;
 }
