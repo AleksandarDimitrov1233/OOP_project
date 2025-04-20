@@ -48,15 +48,8 @@ public class Main {
                         ArrayList<Object> formulaRow = new ArrayList<>();
                         formulaRow.add(formulaValue);
                         spreadsheet.add(formulaRow);
-                        break;
-                        case 5:
-                            System.out.println("Enter a number: ");
-                            String numberValue = scanner.nextLine();
-                            ArrayList<Object> numberRow = new ArrayList<>();
-                            numberRow.add(numberValue);
-                            spreadsheet.add(numberRow);
-                            break;
-                            case 6:
+                        break;            
+                            case 5:
                                 System.out.println("Edit a number: ");
                                 
             }
