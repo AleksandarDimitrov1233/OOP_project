@@ -10,7 +10,7 @@ public class Save extends Command {
     @Override
     public void execute(String[] args) {
        if (gTable == null) {
-        System.out.println("Table not open");
+        System.out.println("Table not open. Please use open <file_name>.");
         return;
     }
         try {
@@ -20,6 +20,9 @@ public class Save extends Command {
                     if (elem.getType() == Type.STR) {
                         String fixed = "\"" + elem.toString(true).replace("\\", "\\\\").replace("\"", "\\\"") + "\"";
                         res.append(fixed);
+                        if (elem != row.get(row.size() - 1)) {
+                            res.append(',');
+                        }
                         continue;
                     }
                     res.append(elem.toString(true));
