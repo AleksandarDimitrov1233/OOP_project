@@ -4,7 +4,7 @@ public class Help extends Command {
     @Override
     public void execute(String[] args) {
         if (gTable == null) {
-        System.out.println("Table not open");
+        System.out.println("Table not open. Please use open <file_name>.");
         return;
     }
         System.out.println("open <file_name>: Opens the specified file. Replace <file_name> with the name of the file you want to open.");
