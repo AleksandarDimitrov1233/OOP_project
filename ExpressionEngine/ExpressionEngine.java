@@ -1,4 +1,6 @@
 package ExpressionEngine;
+
+import java.util.regex.Pattern;
 import Commands.Command;
 import TableUtils.Cell;
 
@@ -36,38 +38,63 @@ public class ExpressionEngine {
         return 0f;
     }
 
-    public static Float evaluate(String expression) {
-        String[] splitStr = expression.split(" ");
-        if (splitStr.length > 3) {
+   public static Float evaluate(String expression) {
+        String[] splitStr = null;
+        char operand = ' ';
+
+        char[] operands = { '+', '-', '*', '/', '^' };
+
+        for (char op : operands) {
+            if (expression.indexOf(op) != -1) {
+                splitStr = expression.split(Pattern.quote(String.valueOf(op)));
+                operand = op;
+                break;
+            }
+        }
+
+        if (splitStr == null) {
+            System.out.println("No valid operand found");
+            return null;
+        }
+        if (splitStr.length < 2) {
             System.out.println("Malformed expression");
             return null;
         }
         Float lhs = null;
+
         try {
-            lhs = dereferenceCell(splitStr[0]);
+            lhs = Float.parseFloat(splitStr[0].trim());
         } catch (NumberFormatException e) {
-            lhs = 0f;
+            try {
+                lhs = dereferenceCell(splitStr[0].trim());
+            } catch (NumberFormatException nfe) {
+                lhs = 0f;
+            }
         }
         Float rhs = null;
         try {
-            rhs = dereferenceCell(splitStr[2]);
+            rhs = Float.parseFloat(splitStr[1].trim());
         } catch (NumberFormatException e) {
-            rhs = 0f;
+            try {
+                rhs = dereferenceCell(splitStr[1].trim());
+            } catch (NumberFormatException nfe) {
+                lhs = 0f;
+            }
         }
-        switch (splitStr[1]) {
-            case "+":
+        switch (operand) {
+            case '+':
                 return lhs + rhs;
-            case "-":
+            case '-':
                 return lhs - rhs;
-            case "*":
+            case '*':
                 return lhs * rhs;
-            case "/":
+            case '/':
                 if (rhs == 0) {
                     return null;
                 }
                 return lhs / rhs;
-            case "^":
-                return (float)Math.pow(lhs, rhs);
+            case '^':
+                return (float) Math.pow(lhs, rhs);
             default:
                 return null;
         }
