@@ -28,7 +28,7 @@ public class App {
             new Help().execute(null);
             System.out.print("Your choice: ");
             String input = s.nextLine();
-            List<String> split = ArgumentParser.parseArguments(input);
+            List<String> split = ArgumentParser.parseArguments(input, false);
             Command action = commands.get(split.get(0));
             if (action == null) {
                 System.out.println("Command not found");
@@ -36,6 +36,12 @@ public class App {
             }
             try {
                 String[] arguments = split.toArray(new String[0]);
+                 if (arguments[0].equals("edit")) {
+                    List<String> splitEscaped = ArgumentParser.parseArguments(input, true);
+                    String[] argumentsEscaped = splitEscaped.toArray(new String[0]);
+                    action.execute(argumentsEscaped);
+                    continue;
+                }
                 action.execute(arguments);
             } catch (Exception e) {
                 System.out.println(e.toString());
