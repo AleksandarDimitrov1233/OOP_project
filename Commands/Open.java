@@ -33,8 +33,9 @@ public class Open extends Command {
             gTable = new Table(contents);
             gFileName = args[1];
         } catch (Exception e) {
-            gTable = null;
-           
+            System.out.println(e);
+            System.out.println("Something went wrong during parsing");
+            gTable = null;           
         }
         System.out.println("File " + args[1] + " opened succesfully");
     }
