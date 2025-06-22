@@ -13,6 +13,10 @@ public class Edit extends Command {
             System.out.println("Not enough arguments.");
             return;
         }
+         if (args.length > 4) {
+            System.out.println("Too many arguments.");
+            return;
+        }
         Cell temp = Cell.parse(args[3], false);
         if (temp == null) {
             return;
