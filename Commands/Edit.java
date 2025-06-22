@@ -13,7 +13,7 @@ public class Edit extends Command {
             System.out.println("Not enough arguments.");
             return;
         }
-        Cell temp = Cell.parse(args[3], deserializing: false);
+        Cell temp = Cell.parse(args[3], false);
         if (temp == null) {
             return;
         }
