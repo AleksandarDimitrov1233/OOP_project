@@ -97,9 +97,8 @@ public class Cell {
             case STR:
                 return strValue;
             case EXPR:
-                String removeSingleQuotes = exprValue.replace("'", "");
-                String filtered = removeSingleQuotes.substring(removeSingleQuotes.indexOf('R'));
-                Float result = ExpressionEngine.evaluate(filtered);
+                String cleaned = exprValue.replace("'", "").replace("=", "").trim();
+                Float result = ExpressionEngine.evaluate(cleaned);
                 if (result == null) {
                     return "ERROR";
                 } else {
@@ -110,11 +109,15 @@ public class Cell {
         }
     }
 
-    public static Cell parse(String s) {
-        if (s == null || s.isEmpty()) {
+   public static Cell parse(String s, Boolean deserializing) {
+        String clean = s.replace("\"", "");
+        if (s == null || s.isEmpty() || s.replace("\"", "").isBlank() || clean.isBlank()) {
             return Cell.none();
         }
-        if (s.charAt(0) == '\'' && s.charAt(1) == '=' || s.charAt(0) == '=') {          
+        if (s.charAt(0) == '\'' && s.charAt(1) == '=' || s.charAt(0) == '=' || clean.charAt(0) == '=') {
+            if (clean.charAt(0) == '=') {
+                return Cell.ofExpr('\'' + clean + '\'');
+            }
             return Cell.ofExpr(s);
         }
         try {
@@ -125,7 +128,13 @@ public class Cell {
             return Cell.ofDecimal(Float.parseFloat(s));
         } catch (NumberFormatException nfe) {
         }
-        if (s.charAt(0) == '"' && s.charAt(s.length() - 1) == '"') {
+        if (s.charAt(0) == '\"' && s.charAt(s.length() - 1) == '\"') {
+            if (!deserializing) {
+                return Cell.ofStr(s.substring(1, s.length() - 1));
+            }
+            return Cell.ofStr(s);
+        }
+        if (deserializing) {
             return Cell.ofStr(s);
         }
         System.out.println(s + " is an invalid data type");
