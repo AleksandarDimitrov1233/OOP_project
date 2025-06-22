@@ -5,15 +5,19 @@ import TableUtils.Cell;
 public class Edit extends Command {
     @Override
     public void execute(String[] args) {
-        Cell temp = Cell.parse(args[3]);
-        if (temp == null) {
-            return;
-        }
-         if (gTable == null) {
+        if (gTable == null) {
         System.out.println("Table not open");
         return;
     }
-        
+         if (args.length < 4) {
+            System.out.println("Not enough arguments.");
+            return;
+        }
+        Cell temp = Cell.parse(args[3], deserializing: false);
+        if (temp == null) {
+            return;
+        }
+                 
         try {
             Integer row = Integer.parseInt(args[1]);
             Integer col = Integer.parseInt(args[2]);
