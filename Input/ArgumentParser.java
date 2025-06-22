@@ -4,14 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ArgumentParser {
-    public static List<String> parseArguments(String input) {
+    public static List<String> parseArguments(String input, Boolean escapedQuotes) {
         List<String> args = new ArrayList<>();
         StringBuilder currentArg = new StringBuilder();
         boolean inQuote = false;
 
         for (char c : input.toCharArray()) {
             if (c == '"') {
-                inQuote = !inQuote;
+              if (inQuote) {
+                inQuote = false;
+                if (escapedQuotes) {
+                    currentArg.append(c);
+                }
+            } else {
+                inQuote = true;
+                if (escapedQuotes) {
+                    currentArg.append(c);
+                }
+             }
             } else if (c == ' ' && !inQuote) {
                 if (currentArg.length() > 0) {
                     args.add(currentArg.toString());
