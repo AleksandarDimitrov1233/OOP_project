@@ -18,7 +18,7 @@ public class Table {
             for (int i = 0; i < table.size(); i++) {
                 if (table.get(i).size() < maxLen) {
                     while (table.get(i).size() != maxLen) {
-                        table.get(i).add(Cell.parse(""));
+                        table.get(i).add(Cell.parse("", true));
                     }
                 }
             }
@@ -68,7 +68,7 @@ public class Table {
     }
 
     private static void addField(List<Cell> fields, String raw) {
-        fields.add(Cell.parse(raw.trim()));
+        fields.add(Cell.parse(raw.trim(), true));
     }
 
     public static void prettyPrint(List<List<Cell>> table) {
