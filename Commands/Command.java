@@ -7,7 +7,7 @@ public abstract class Command {
     public  static String gFileName = null;
     public void execute(String[] args) {
     if (gTable == null) {
-        System.out.println("Table not open");
+        System.out.println("Table not open. Please use open <file_name>.");
         return;
     }
   }
